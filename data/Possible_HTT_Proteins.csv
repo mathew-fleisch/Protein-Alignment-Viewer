@@ -1,0 +1,36 @@
+*|Q9V3N4|Drosophila melanogaster (Fruit fly)|TrEMBL|3583|Huntingtin|
+*|Q9GM99|Sus scrofa (Pig) |TrEMBL|3199|Huntingtin|
+*|P51112|Takifugu rubripes (Japanese pufferfish) (Fugu rubripes)|Swissprot|3148|Huntingtin|
+*|P42858|Homo sapiens (Human)|Swissprot|3142|Huntingtin|
+*|B7XBM1|Callithrix jacchus (White-tufted-ear marmoset) |TrEMBL|3131|Huntingtin|
+*|B7U9A4|Ovis aries (Sheep) |TrEMBL|3127|Huntingtin|
+|O42269|Danio rerio (Zebrafish) (Brachydanio rerio)|TrEMBL|3121|Huntingtin|
+*|P42859|Mus musculus (Mouse)|Swissprot|3119|Huntingtin|
+*|P51111|Rattus norvegicus (Rat)|Swissprot|3110|Huntingtin|
+*|UPI0001795EC6|Equus caballus (Horse)|UniParc: REFSEQ|3100|PREDICTED: huntingtin [Equus caballus]|
+|Q76P24|Dictyostelium discoideum (Slime mold) |Swissprot|3095|HD protein homolog|
+*|UPI0000E51DBE|Pan troglodytes (Chimpanzee)|UniParc: ENSEMBL|3092||
+*|B0L1U1|Branchiostoma floridae (Florida lancelet) (Amphioxus)|TrEMBL|3090|Huntingtin|
+*|UPI0001DEA501|Ailuropoda melanoleuca (Giant panda)|UniParc: REFSEQ|3089|PREDICTED: huntingtin-like|
+|F7BQH8|Equus caballus (Horse)|TrEMBL|3059|Uncharacterized protein|
+|D2H4H2|Ailuropoda melanoleuca (Giant panda)|TrEMBL|3058|Putative uncharacterized protein|
+|A4VAL4|Branchiostoma floridae (Florida lancelet) (Amphioxus)|TrEMBL|3038|Huntingtin|
+*|UPI0001D5E542|Pongo abelii (Sumatran orangutan)|UniParc: REFSEQ|2983|PREDICTED: LOW QUALITY PROTEIN: huntingtin-like|
+|E2AM71|Camponotus floridanus|TrEMBL|2900|Huntingtin|
+|E2C517|Harpegnathos saltator|TrEMBL|2832|Huntingtin|
+|A7RGU1|Nematostella vectensis (Starlet sea anemone|TrEMBL|2788|Predicted protein|
+|E9J746|Solenopsis invicta (Red imported fire ant) (Solenopsis wagneri)|TrEMBL|2746|Putative uncharacterized protein|
+|E0W1H5|Pediculus humanus subsp. corporis (Body louse)|TrEMBL|2681|Huntingtons disease protein huntingtin, putative|
+|D6X048|Tribolium castaneum (Red flour beetle)|TrEMBL|2666|Putative uncharacterized protein|
+|E9GU71|Daphnia pulex (Water flea)|TrEMBL|2402|Putative uncharacterized protein|
+|B3S350|Trichoplax adhaerens (Trichoplax reptans)|TrEMBL|1149|Putative uncharacterized protein|
+|Q66KL5|Xenopus tropicalis (Western clawed frog) (Silurana tropicalis)|TrEMBL|1148|Huntingtin|
+|B7QB04|Ixodes scapularis (Black-legged tick) (Deer tick)|TrEMBL|557|Huntingtons disease protein huntingtin, putative|
+|B3S349|Trichoplax adhaerens (Trichoplax reptans) |TrEMBL|463|Putative uncharacterized protein|
+|B0R1T9|Strongylocentrotus purpuratus (Purple sea urchin)|TrEMBL|319|Huntingtin|
+|B0R1U5|Strongylocentrotus purpuratus (Purple sea urchin)|TrEMBL|314|Huntingtin|
+|D2XMT8|Saccoglossus kowalevskii (Acorn worm)|TrEMBL|235|Huntingtin|
+|O18897|Canis familiaris (Dog) (Canis lupus familiaris)|TrEMBL|75|Huntingtin|
+|D2CTH8|Gorilla gorilla (western gorilla) |TrEMBL|44|Huntingtin|
+|D2CTH5|Pan troglodytes (Chimpanzee)|TrEMBL|43|Huntingtin|Ensembl does have a 3092 length amino acid sequence, but it's not in uniprot
+|D2CTI2|Pongo pygmaeus (Bornean orangutan)|TrEMBL|42|Huntingtin|
