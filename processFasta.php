@@ -1,4 +1,5 @@
 <?php
+//Test
 $time = microtime();
 $time = explode(" ", $time);
 $time = $time[1] + $time[0];
@@ -6,7 +7,7 @@ $start = $time;
 
 $sequences = array();
 $nl = "\n<br>";
-$file = file_get_contents("./data/clustalw2.fasta");
+$file = file_get_contents("/var/www/html/chdi/inc/protein_alignment/data/clustalw2.fasta");
 if($file)
 {
 	//Make an array where each element is a separate species' protein sequence
@@ -49,7 +50,7 @@ if($file)
 		array_push($sequences, $sequence);
 	}
 }
-echo "<textarea rows=\"17\" cols=\"135\" wrap=\"off\">" . implode("   \n", $sequences) . "</textarea>$nl";
+echo "<textarea rows=\"17\" cols=\"120\" wrap=\"off\">" . implode("   \n", $sequences) . "</textarea>$nl";
 $time = microtime();
 $time = explode(" ", $time);
 $time = $time[1] + $time[0];
