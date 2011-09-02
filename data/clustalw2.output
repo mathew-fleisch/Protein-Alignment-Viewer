@@ -1,0 +1,124 @@
+
+
+
+ CLUSTAL 2.1 Multiple Sequence Alignments
+
+
+Sequence type explicitly set to Protein
+Sequence format is Pearson
+Sequence 1: tr|Q9V3N4|Q9V3N4_DROME     3583 aa
+Sequence 2: tr|Q9GM99|Q9GM99_PIG       3139 aa
+Sequence 3: sp|P51112|HD_TAKRU         3148 aa
+Sequence 4: sp|P42858|HD_HUMAN         3142 aa
+Sequence 5: tr|B7XBM1|B7XBM1_CALJA     3131 aa
+Sequence 6: tr|B7U9A4|B7U9A4_SHEEP     3127 aa
+Sequence 7: sp|P42859|HD_MOUSE         3119 aa
+Sequence 8: sp|P51111|HD_RAT           3110 aa
+Sequence 9: UPI0001795EC6              3100 aa
+Sequence 10: UPI0000E51DBE              3092 aa
+Sequence 11: tr|B0L1U1|B0L1U1_BRAFL     3090 aa
+Sequence 12: UPI0001DEA501              3089 aa
+Sequence 13: UPI0001D5E542              2983 aa
+Start of Pairwise alignments
+Aligning...
+
+Sequences (1:2) Aligned. Score:  17
+Sequences (1:3) Aligned. Score:  17
+Sequences (1:4) Aligned. Score:  17
+Sequences (1:5) Aligned. Score:  16
+Sequences (1:6) Aligned. Score:  17
+Sequences (1:7) Aligned. Score:  17
+Sequences (1:8) Aligned. Score:  16
+Sequences (1:9) Aligned. Score:  17
+Sequences (1:10) Aligned. Score:  16
+Sequences (1:11) Aligned. Score:  16
+Sequences (1:12) Aligned. Score:  17
+Sequences (1:13) Aligned. Score:  17
+Sequences (2:3) Aligned. Score:  68
+Sequences (2:4) Aligned. Score:  88
+Sequences (2:5) Aligned. Score:  87
+Sequences (2:6) Aligned. Score:  88
+Sequences (2:7) Aligned. Score:  86
+Sequences (2:8) Aligned. Score:  86
+Sequences (2:9) Aligned. Score:  89
+Sequences (2:10) Aligned. Score:  88
+Sequences (2:11) Aligned. Score:  46
+Sequences (2:12) Aligned. Score:  90
+Sequences (2:13) Aligned. Score:  88
+Sequences (3:4) Aligned. Score:  70
+Sequences (3:5) Aligned. Score:  70
+Sequences (3:6) Aligned. Score:  69
+Sequences (3:7) Aligned. Score:  70
+Sequences (3:8) Aligned. Score:  69
+Sequences (3:9) Aligned. Score:  70
+Sequences (3:10) Aligned. Score:  70
+Sequences (3:11) Aligned. Score:  45
+Sequences (3:12) Aligned. Score:  71
+Sequences (3:13) Aligned. Score:  71
+Sequences (4:5) Aligned. Score:  97
+Sequences (4:6) Aligned. Score:  88
+Sequences (4:7) Aligned. Score:  91
+Sequences (4:8) Aligned. Score:  90
+Sequences (4:9) Aligned. Score:  91
+Sequences (4:10) Aligned. Score:  99
+Sequences (4:11) Aligned. Score:  46
+Sequences (4:12) Aligned. Score:  91
+Sequences (4:13) Aligned. Score:  99
+Sequences (5:6) Aligned. Score:  87
+Sequences (5:7) Aligned. Score:  90
+Sequences (5:8) Aligned. Score:  90
+Sequences (5:9) Aligned. Score:  91
+Sequences (5:10) Aligned. Score:  96
+Sequences (5:11) Aligned. Score:  45
+Sequences (5:12) Aligned. Score:  91
+Sequences (5:13) Aligned. Score:  97
+Sequences (6:7) Aligned. Score:  86
+Sequences (6:8) Aligned. Score:  86
+Sequences (6:9) Aligned. Score:  88
+Sequences (6:10) Aligned. Score:  88
+Sequences (6:11) Aligned. Score:  46
+Sequences (6:12) Aligned. Score:  89
+Sequences (6:13) Aligned. Score:  88
+Sequences (7:8) Aligned. Score:  97
+Sequences (7:9) Aligned. Score:  89
+Sequences (7:10) Aligned. Score:  90
+Sequences (7:11) Aligned. Score:  45
+Sequences (7:12) Aligned. Score:  89
+Sequences (7:13) Aligned. Score:  91
+Sequences (8:9) Aligned. Score:  88
+Sequences (8:10) Aligned. Score:  89
+Sequences (8:11) Aligned. Score:  45
+Sequences (8:12) Aligned. Score:  88
+Sequences (8:13) Aligned. Score:  91
+Sequences (9:10) Aligned. Score:  90
+Sequences (9:11) Aligned. Score:  45
+Sequences (9:12) Aligned. Score:  93
+Sequences (9:13) Aligned. Score:  93
+Sequences (10:11) Aligned. Score:  45
+Sequences (10:12) Aligned. Score:  90
+Sequences (10:13) Aligned. Score:  97
+Sequences (11:12) Aligned. Score:  46
+Sequences (11:13) Aligned. Score:  45
+Sequences (12:13) Aligned. Score:  92
+Guide tree file created:   [clustalw2-E20110902-194930-0687-26278561-pg.dnd]
+
+There are 12 groups
+Start of Multiple Alignment
+
+Aligning...
+Group 1: Sequences:   2      Score:64227
+Group 2: Sequences:   2      Score:66620
+Group 3: Sequences:   3      Score:63477
+Group 4: Sequences:   4      Score:65328
+Group 5: Sequences:   2      Score:66266
+Group 6: Sequences:   6      Score:63412
+Group 7: Sequences:   2      Score:64945
+Group 8: Sequences:   8      Score:63032
+Group 9: Sequences:  10      Score:63029
+Group 10: Sequences:  11      Score:57208
+Group 11: Sequences:  12      Score:47214
+Group 12:                     Delayed
+Alignment Score 1020383
+
+CLUSTAL-Alignment file created  [clustalw2-E20110902-194930-0687-26278561-pg.aln]
+
