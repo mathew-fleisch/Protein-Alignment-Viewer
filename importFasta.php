@@ -32,9 +32,9 @@ if($file)
 unset($file);
 
 $sequences = array();
-$input = "http://www.uniprot.org/uniprot/P42858.fasta";
-echo "<h3>Input: <a href=\"$input\">$input</a></h3>";
-$file = file_get_contents($input);
+$input = "/data/clustalw2.fasta";
+echo "<h3>Input: <a href=\"/inc/protein_alignment$input\">/inc/protein_alignment$input</a></h3>";
+$file = file_get_contents($base . $input);
 if($file)
 {
 	//Make an array where each element is a separate species' protein sequence
@@ -44,7 +44,7 @@ if($file)
 		$lines = preg_split("/\n/", $protein);
 		$speciesTrig = false;
 		$sequence = "";
-		$nameSpace = 24;
+		$nameSpace = 47;
 		//Condence line breaks
 		foreach($lines as $line)
 		{
@@ -84,7 +84,7 @@ if($file)
 		array_push($sequences, $sequence);
 	}
 }
-echo "<textarea rows=\"3\" cols=\"120\" wrap=\"off\">" . implode("   \n", $sequences) . "   </textarea>$nl";
+echo "<textarea rows=\"17\" cols=\"120\" wrap=\"off\">" . implode("   \n", $sequences) . "</textarea>$nl";
 $time = microtime();
 $time = explode(" ", $time);
 $time = $time[1] + $time[0];
