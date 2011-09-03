@@ -42,7 +42,7 @@ if($file)
 		$lines = preg_split("/\n/", $protein);
 		$speciesTrig = false;
 		$sequence = "";
-		$nameSpace = 45;
+		$nameSpace = 47;
 		//Condence line breaks
 		foreach($lines as $line)
 		{
