@@ -1,0 +1,3 @@
+ProtAv - Protein Alignment Viewer
+
+This program was designed to emulate partial functionality of the protein alignment viewer "Jalview." Jalview is a java program available for download and as an applet. We wanted something similar, but with much less functionality that could be called via php or javascript and searved to the user as an ajax pop up box in our program "Network Browser." Instead of expecting our users to download programs, input files and import them into Jalview, we wanted a simple display similar to Jalview on the fly. This program attempts to do just that.
