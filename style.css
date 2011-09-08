@@ -1,0 +1,52 @@
+#cell {
+	float:left;
+	border-right: 1px solid #3399cc;
+	padding: 5px;
+}
+#speciesName {
+	float:right;
+	font-weight:bold;
+}
+#position {
+	float:right;
+	font-weight:bold;
+}
+#legend {
+	width:800px;
+	height:27px;
+	border-right: 1px solid #3399cc;
+	border-left: 1px solid #3399cc;
+	border-top: 1px solid #3399cc;
+	padding:0;
+	margin:0;
+}
+#protavWrapper {
+	font-family: Courier, Courier New;
+	font-size: 16px;
+	color:#666;
+	width:800px;
+	height:280px;
+	overflow:auto;
+	border: 1px solid #3399cc;
+	white-space:nowrap;
+}
+#animalSeq {
+	padding:0;
+	margin:0 10px;
+}
+#animal {
+	list-style-type:none;
+	padding:0;
+	margin:0;
+}
+#seqList {
+	padding:0;
+	margin:0 10px 0 0;
+	display:inline;
+}
+#seqList li {
+	list-style-type: none;
+	padding:0 1px;
+	margin:0;
+	display:inline;
+}
