@@ -1,9 +1,15 @@
+<link rel="stylesheet" type="text/css" href="/inc/protein_alignment/style.css"/>
+<link rel="stylesheet" type="text/css" href="/inc/js/jquery.ui.css"/>
+<script type="text/javascript" src="/inc/protein_alignment/display.js"></script>
+<script type="text/javascript" src="/inc/js/jquery.js"></script>
+<script type="text/javascript" src="/inc/js/jquery.ui.js"></script>
 <?php
 $time = microtime();
 $time = explode(" ", $time);
 $time = $time[1] + $time[0];
 $start = $time;
 $nl = "\n<br>";
+$threeSpaces = "&nbsp;&nbsp;&nbsp;";
 
 
 //Parse species name file and build a hash of arrays of the info
@@ -25,7 +31,7 @@ if($file)
 		$science_name = array_push_assoc($science_name, $cols[1], $cols[3]);
 		$protein_src  = array_push_assoc($protein_src , $cols[1], $cols[4]);
 		$protein_len  = array_push_assoc($protein_len , $cols[1], $cols[5]);
-		$prtoein_name = array_push_assoc($protein_name, $cols[1], $cols[6]);
+		$protein_name = array_push_assoc($protein_name, $cols[1], $cols[6]);
 		//echo $cols[1] . " " . $cols[2] . $nl;
 	}
 }
@@ -75,7 +81,7 @@ if($file)
 					//number of blank spaces to maintain sequence alignment				
 					$nameLen = strlen($name);
 					$opSpace = "";
-					for($i = 0; $i < ($nameSpace - $nameLen); $i++) { $opSpace.=" "; }
+					for($i = 0; $i < ($nameSpace - $nameLen); $i++) { $opSpace.="&nbsp;"; }
 					//$sequence .= $name . $opSpace;
 					array_push($names, $name.$opSpace);
 					$speciesTrig = true;
@@ -91,12 +97,46 @@ if($file)
 
 if(count($names) == count($sequences))
 {
-	echo "<textarea rows=\"17\" cols=\"120\" wrap=\"off\">";
+	//echo "<textarea rows=\"17\" cols=\"120\" wrap=\"off\">";
+	echo "
+<div id=\"legend\">
+	<div id=\"cell\">
+		Species Name:<div id=\"speciesName\"></div>
+	</div>
+	<div id=\"cell\">
+		Position:<div id=\"position\"></div>
+	</div>
+	<div id=\"cell\">
+		Amino Acid:<div id=\"amino-acid-name\"></div>
+	</div>
+</div>
+<div id=\"protavWrapper\">
+	<ul id=\"animalSeq\">";
 	for($i=0; $i<count($names); $i++)
 	{
-		echo $names[$i] . $sequences[$i] . "   \n";
+		$sp_arr = preg_split("/\(/", $names[$i]);
+		$sci_name = trim($sp_arr[0]);
+		$nor_name = preg_replace("/\)*\&nbsp\;*/", "", $sp_arr[1]);
+		$tempSeq = str_split($sequences[$i]);
+
+		echo "
+		<li id=\"animal\">
+			" . $names[$i] . "
+			<ul id=\"seqList\" data-sci-name=\"$sci_name\" data-nor-name=\"$nor_name\">";
+		for($l=0; $l<count($tempSeq); $l++)
+		{
+			$tLet = $tempSeq[$l];
+			if($tLet == "-") { $tLet = "0"; }
+			echo "<li id=\"seq_letter\" class=\"pos_" . ($l+1) . "\" data-position=\"" . ($l+1) . "\" data-amino-acid=\"$tLet\">" . $tempSeq[$l] . "</li>";
+		}
+		echo "
+			</ul>
+		</li>";
 	}
-	echo "</textarea>$nl";
+	echo "
+	</ul>
+</div>";
+	//echo "</textarea>$nl";
 }
 
 
