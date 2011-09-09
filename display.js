@@ -15,7 +15,7 @@ $(document).ready(function() {
 		var tempPos = $(this).attr('data-position');
 		if(event.type == "mouseover")
 		{
-			$(this).css("background-color", "#555");
+			//$(this).css("background-color", "#555");
 			$(this).css("color", "#000");
 			$(this).parent().css("background-color", "#ddd");
 			$('#speciesName').text($(this).parent().attr("data-nor-name"));
@@ -25,7 +25,7 @@ $(document).ready(function() {
 		}
 		if(event.type == "mouseout")
 		{
-			$(this).css("background-color", "transparent");
+			//$(this).css("background-color", "transparent");
 			$(this).css("color", "#666");
 			$(this).parent().css("background-color", "transparent");
 			$(".pos_"+tempPos).css("background-color", "transparent");
@@ -40,7 +40,7 @@ function lookup(letter)
 	switch(letter)
 	{
 		case "-":
-			return "none";
+			return "None";
 			break;
 		//Normal Amino Acids
 		case "A":

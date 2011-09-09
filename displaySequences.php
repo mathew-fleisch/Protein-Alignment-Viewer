@@ -32,7 +32,6 @@ if($file)
 		$protein_src  = array_push_assoc($protein_src , $cols[1], $cols[4]);
 		$protein_len  = array_push_assoc($protein_len , $cols[1], $cols[5]);
 		$protein_name = array_push_assoc($protein_name, $cols[1], $cols[6]);
-		//echo $cols[1] . " " . $cols[2] . $nl;
 	}
 }
 unset($file);
@@ -69,12 +68,10 @@ if($file)
 						$pos_species	= preg_split("/_/", $speciesArr[2]);
 						$speciesId	= $pos_species[0];
 						$speciesName	= $pos_species[1];
-						//$name = $prot_id . " " . $speciesName;
 						$name = $science_name{$prot_id} . " (" . $common_name{$prot_id} . ")";
 					}
 					else
 					{
-						//$name = $line;
 						$name = $science_name{$line} . " (" . $common_name{$line} . ")";
 					}
 					//Since spacing matters, make a var with the correct 
@@ -82,7 +79,6 @@ if($file)
 					$nameLen = strlen($name);
 					$opSpace = "";
 					for($i = 0; $i < ($nameSpace - $nameLen); $i++) { $opSpace.="&nbsp;"; }
-					//$sequence .= $name . $opSpace;
 					array_push($names, $name.$opSpace);
 					$speciesTrig = true;
 				}
@@ -92,22 +88,20 @@ if($file)
 		if($sequence) { array_push($sequences, $sequence); } 
 	}
 }
-//echo "<textarea rows=\"17\" cols=\"120\" wrap=\"off\">" . implode("   \n", $sequences) . "</textarea>$nl";
 
 
 if(count($names) == count($sequences))
 {
-	//echo "<textarea rows=\"17\" cols=\"120\" wrap=\"off\">";
 	echo "
 <div id=\"legend\">
-	<div id=\"cell\">
-		Species Name:<div id=\"speciesName\"></div>
-	</div>
 	<div id=\"cell\">
 		Position:<div id=\"position\"></div>
 	</div>
 	<div id=\"cell\">
 		Amino Acid:<div id=\"amino-acid-name\"></div>
+	</div>
+	<div id=\"cell\">
+		Species:<div id=\"speciesName\"></div>
 	</div>
 </div>
 <div id=\"protavWrapper\">
@@ -136,7 +130,6 @@ if(count($names) == count($sequences))
 	echo "
 	</ul>
 </div>";
-	//echo "</textarea>$nl";
 }
 
 

@@ -2,23 +2,27 @@
 	float:left;
 	border-right: 1px solid #3399cc;
 	padding: 5px;
+	font-weight:bold;
 }
 #speciesName {
 	padding: 0 5px;
 	width: 200px;
 	float:right;
-	font-weight:bold;
+	color: #3399cc;
+	font-weight:normal;
 }
 #position {
 	padding: 0 5px;
 	float:right;
-	font-weight:bold;
+	color: #3399cc;
+	font-weight:normal;
 }
 #amino-acid-name {
 	padding: 0 5px;
 	width: 100px;
 	float:right;
-	font-weight:bold;
+	color: #3399cc;
+	font-weight:normal;
 }
 #legend {
 	width:800px;
