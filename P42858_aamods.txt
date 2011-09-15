@@ -1,0 +1,7 @@
+Modified residue	411	1	Phosphoserine
+Modified residue	419	1	Phosphoserine
+Modified residue	432	1	Phosphoserine
+Modified residue	1179	1	Phosphoserine
+Modified residue	1199	1	Phosphoserine
+Modified residue	1870	1	Phosphoserine
+Modified residue	1874	1	Phosphoserine

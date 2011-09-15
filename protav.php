@@ -1,20 +1,27 @@
-<link rel="stylesheet" type="text/css" href="/inc/protein_alignment/style.css"/>
-<link rel="stylesheet" type="text/css" href="/inc/js/jquery.ui.css"/>
-<script type="text/javascript" src="/inc/protein_alignment/display.js"></script>
-<script type="text/javascript" src="/inc/js/jquery.js"></script>
-<script type="text/javascript" src="/inc/js/jquery.ui.js"></script>
 <?php
-$time = microtime();
-$time = explode(" ", $time);
-$time = $time[1] + $time[0];
-$start = $time;
-$nl = "\n<br>";
-$threeSpaces = "&nbsp;&nbsp;&nbsp;";
+if($_POST)
+{
+	$incAnimals = preg_split("/,/", $_POST['incAnimals']);
+}else { $incAnimals = array(); }
+echo "
+<link rel=\"stylesheet\" type=\"text/css\" href=\"/inc/protein_alignment/style.css\"/>
+<script type=\"text/javascript\" src=\"/inc/protein_alignment/display.js\"></script>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"/inc/js/jquery.ui.css\"/>
+<script type=\"text/javascript\" src=\"/inc/js/jquery.js\"></script>
+<script type=\"text/javascript\" src=\"/inc/js/jquery.ui.js\"></script>
+";
+/*
+   echo "
+
+";
+*/
+$longest_word = 0;
 
 
 //Parse species name file and build a hash of arrays of the info
 $common_name	= array();
 $science_name	= array();
+$name_length	= array();
 //$protein_src	= array();
 //$protein_len	= array();
 //$protein_name	= array();
@@ -29,6 +36,17 @@ if($file)
 		$cols = preg_split("/\|/", $line);
 		$common_name  = array_push_assoc($common_name, $cols[1], $cols[2]);
 		$science_name = array_push_assoc($science_name, $cols[1], $cols[3]);
+		$len = strlen($cols[3]." (".$cols[2].")  ");
+		$name_length  = array_push_assoc($name_length, $cols[2], $len);
+		if(count($incAnimals))
+		{
+			if($len > $longest_word)
+			{
+				foreach($incAnimals as $useAnimal) { if($useAnimal == strtolower($cols[2])) { $longest_word = $len; } }
+			}
+		}
+		else { $longest_word = 47; }
+
 		//$protein_src  = array_push_assoc($protein_src , $cols[1], $cols[4]);
 		//$protein_len  = array_push_assoc($protein_len , $cols[1], $cols[5]);
 		//$protein_name = array_push_assoc($protein_name, $cols[1], $cols[6]);
@@ -51,22 +69,19 @@ if($file)
 
 $sequences = array();
 $names = array();
-$input = "/data/clustalw2.fasta";
-echo "<h3>Input: <a href=\"/inc/protein_alignment$input\">/inc/protein_alignment$input</a></h3>";
-$file = file_get_contents($base . $input);
+$input = "data/clustalw2.fasta";
+//echo "<h3>Input: <a href=\"/inc/protein_alignment/$input\">/inc/protein_alignment/$input</a></h3>";
+$file = file_get_contents($base . "/" . $input);
 if($file)
 {
 	//Make an array where each element is a separate species' protein sequence
 	$proteins = preg_split("/\>/", $file);
-	$trackAnimal = 0;
 	foreach($proteins as $protein)
 	{
-		//if($trackAnimal < 6)
-		//{
+
 			$lines = preg_split("/\n/", $protein);
 			$speciesTrig = false;
 			$sequence = "";
-			$nameSpace = 47;
 			//Condence line breaks
 			foreach($lines as $line)
 			{
@@ -84,17 +99,22 @@ if($file)
 							$pos_species	= preg_split("/_/", $speciesArr[2]);
 							$speciesId	= $pos_species[0];
 							$speciesName	= $pos_species[1];
+							//$tname = "<a href='http://www.uniprot.org/uniprot/$prot_id'>" . $science_name{$prot_id} . "</a> (" . $common_name{$prot_id} . ")";
 							$name = $science_name{$prot_id} . " (" . $common_name{$prot_id} . ")";
 						}
 						else
 						{
 							$name = $science_name{$line} . " (" . $common_name{$line} . ")";
+							//$tname = "";
 						}
 						//Since spacing matters, make a var with the correct 
 						//number of blank spaces to maintain sequence alignment				
 						$nameLen = strlen($name);
 						$opSpace = "";
-						for($i = 0; $i < ($nameSpace - $nameLen); $i++) { $opSpace.="&nbsp;"; }
+						for($i = 0; $i < ($longest_word - $nameLen); $i++) { $opSpace.="&nbsp;"; }
+						//if($tname) { $name = $tname; }
+						//$tmp = "<a href=\"http://www.uniprot.org\">$name</a>$opSpace";
+						//echo alert($tmp);
 						array_push($names, $name.$opSpace);
 						$speciesTrig = true;
 					}
@@ -103,7 +123,6 @@ if($file)
 			}
 			if($sequence) { array_push($sequences, $sequence); } 
 		//}
-		$trackAnimal++;
 	}
 }	
 
@@ -116,9 +135,12 @@ if(count($names) == count($sequences))
 		Position:<div id=\"position\"></div>
 	</div>
 	<div id=\"cell\">
-		Amino Acid:<div id=\"amino-acid-name\"></div>
+		PTM:<div id=\"ptm\"></div>
 	</div>
 	<div id=\"cell\">
+		Amino Acid:<div id=\"amino-acid-name\"></div>
+	</div>
+	<div id=\"last-cell\">
 		Species:<div id=\"speciesName\"></div>
 	</div>
 </div>
@@ -131,6 +153,15 @@ if(count($names) == count($sequences))
 		$nor_name = preg_replace("/\)*\&nbsp\;*/", "", $sp_arr[1]);
 		$tempSeq = str_split($sequences[$i]);
 
+		if(count($incAnimals))
+		{
+			$useTrig = false;
+			foreach($incAnimals as $useAnimal)
+			{
+				if(strtolower($nor_name) == $useAnimal) { $useTrig = true; }
+			}
+			if(!$useTrig) { continue 1; }
+		}
 		echo "
 		<li id=\"animal\">
 			" . $names[$i] . "
@@ -139,10 +170,10 @@ if(count($names) == count($sequences))
 		{
 			if($nor_name == "Human")
 			{
-				if($modifications{($l+1)}) { $mod = "cell-" . strtolower($modifications{($l+1)}); $ptm = " data-ptm=\"$mod\""; }
-				else { $mod = "cell-normal"; $ptm = ""; }
+				if($modifications{($l+1)}) { $mod = "cell-" . strtolower($modifications{($l+1)}); $ptm = " data-ptm=\"" . $modifications{($l+1)} . "\""; }
+				else { $mod = "cell-normal"; $ptm = "data-ptm=\"None\""; }
 			}
-			else { $mod = "cell-normal"; $ptm = ""; }
+			else { $mod = "cell-normal"; $ptm = "data-ptm=\"None\""; }
 
 			$tLet = $tempSeq[$l];
 			if($tLet == "-") { $tLet = "0"; }
@@ -159,15 +190,12 @@ if(count($names) == count($sequences))
 
 
 
-$time = microtime();
-$time = explode(" ", $time);
-$time = $time[1] + $time[0];
-$end = $time;
-$totalTime = ($end - $start);
-printf("Load time: %f seconds", $totalTime);
-
-
-
 /* --------------- Functions --------------- */
-
+function array_push_assoc($array, $key, $value){
+	$array[$key] = $value;
+	return $array;
+}
+function alert($msg){
+	return "<script>alert('$msg');</script>";
+}
 ?>

@@ -4,15 +4,21 @@
 	padding: 5px;
 	font-weight:bold;
 }
-#speciesName {
+#last-cell {
+	float:left;
+	padding: 5px;
+	font-weight:bold;
+}
+#position {
+	width:25px;
 	padding: 0 5px;
-	width: 200px;
 	float:right;
 	color: #3399cc;
 	font-weight:normal;
 }
-#position {
+#speciesName {
 	padding: 0 5px;
+	width: 200px;
 	float:right;
 	color: #3399cc;
 	font-weight:normal;
@@ -24,12 +30,25 @@
 	color: #3399cc;
 	font-weight:normal;
 }
+#ptm {
+	padding: 0 5px;
+	width:90px;
+	float:right;
+	color:#3399cc;
+      font-weight:normal;
+}
 #legend {
-	width:800px;
+	width:814px;
 	height:27px;
 	border-right: 1px solid #3399cc;
 	border-left: 1px solid #3399cc;
 	border-top: 1px solid #3399cc;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
 	padding:0;
 	margin:0;
 }
@@ -37,8 +56,9 @@
 	font-family: Courier, Courier New;
 	font-size: 16px;
 	color:#666;
-	width:800px;
-	height:240px;
+	width:814px;
+	min-height:27px;
+	max-height:240px;
 	overflow:auto;
 	border: 1px solid #3399cc;
 	white-space:nowrap;
@@ -53,14 +73,40 @@
 	padding:0;
 	margin:0;
 }
-#seqList {
+.seqList-normal {
 	padding:0;
 	margin:0 10px 0 0;
 	display:inline;
+	background-color:transparent;
 }
-#seqList li {
+.seqList-hover {
+	padding:0;
+	margin:0 10px 0 0;
+	display:inline;
+	background-color:#ddd;
+}
+
+.seqList-normal li {
 	list-style-type: none;
 	padding:0 1px;
 	margin:0;
 	display:inline;
+}
+.seqList-hover li {
+	list-style-type: none;
+	padding:0 1px;
+	margin:0;
+	display:inline;
+}
+.cell-hover {
+	color:#444;
+	background-color:#ddd;
+}
+.cell-normal {
+	color: #666;
+	background-color:transparent;
+}
+.cell-phosphoserine {
+	color: #fff;
+	background-color:#111;
 }

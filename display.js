@@ -1,40 +1,45 @@
 $(document).ready(function() {
-	/*
-	$('#protavWrapper').live("mouseover mouseout", function(event) {
-		if(event.type == "mouseover")
-		{
-			$(this).css("cursor", "none");
-		}
-		if(event.type == "mouseout")
-		{
-			$(this).css("cursor", "pointer");
-		}
-	});
-	*/
-	$('#seq_letter').live("mouseover mouseout click", function(event) {
-		var tempPos = $(this).attr('data-position');
-		if(event.type == "mouseover")
-		{
-			//$(this).css("background-color", "#555");
-			$(this).css("color", "#000");
-			$(this).parent().css("background-color", "#ddd");
-			$('#speciesName').text($(this).parent().attr("data-nor-name"));
-			$('#position').text($(this).attr("data-position"));
-			$('.pos_'+tempPos).css("background-color", "#ddd");
-			$('#amino-acid-name').text(lookup($(this).text()));
-		}
-		if(event.type == "mouseout")
-		{
-			//$(this).css("background-color", "transparent");
-			$(this).css("color", "#666");
-			$(this).parent().css("background-color", "transparent");
-			$(".pos_"+tempPos).css("background-color", "transparent");
-		}
+	$(".seq_letter").live("mouseover mouseout click", function(event) {
+		var crnt_position	= $(this).attr('data-position');
+		var normal_name		= $(this).parent().attr("data-nor-name");
+		var science_name	= $(this).attr("data-position");
+		var amino_acid		= lookup($(this).text());
+		var protein_mod		= $(this).attr("data-ptm").replace("cell-","");
 
+		if(event.type == "mouseover")
+		{
+			//Row Hover
+			$(this).parent().removeClass("seqList-normal");
+			$(this).parent().addClass("seqList-hover");
+			
+			//Column Hover
+			//$(".pos_"+crnt_position).css("background-color", "#ddd");
+			$(".pos_"+crnt_position).removeClass("cell-normal");
+			$(".pos_"+crnt_position).addClass("cell-hover");
+
+
+			//Legend text
+			$('#speciesName').text(normal_name);
+			$('#position').text(science_name);
+			$('#amino-acid-name').text(amino_acid);
+			$('#ptm').text(protein_mod); 
+		}
+		if(event.type == "mouseout")
+		{
+			//Row De-Hover
+			$(this).parent().removeClass("seqList-hover");
+			$(this).parent().addClass("seqList-normal");
+
+			//Column De-Hover
+			$(".pos_"+crnt_position).removeClass("cell-hover");
+			if(!$(".pos_"+crnt_position).attr("data-ptm")) { $(".pos_"+crnt_position).addClass("cell-normal"); }
+		}
 	});
 });
 
-
+String.prototype.capitalize = function() {
+	return this.charAt(0).toUpperCase() + this.slice(1);
+}
 function lookup(letter)
 {
 	switch(letter)
