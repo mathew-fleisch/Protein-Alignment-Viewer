@@ -1,20 +1,22 @@
+<div id="loading">
+	<p id="loadingTitle">Loading...</p>
+	<img src="/inc/loader.gif" alt="Loading..." />
+</div>
+<div id="protav">
 <?php
 if($_POST)
 {
 	$incAnimals = preg_split("/,/", $_POST['incAnimals']);
 }else { $incAnimals = array(); }
 echo "
-<link rel=\"stylesheet\" type=\"text/css\" href=\"/inc/protein_alignment/style.css\"/>
-<script type=\"text/javascript\" src=\"/inc/protein_alignment/display.js\"></script>
-<link rel=\"stylesheet\" type=\"text/css\" href=\"/inc/js/jquery.ui.css\"/>
-<script type=\"text/javascript\" src=\"/inc/js/jquery.js\"></script>
-<script type=\"text/javascript\" src=\"/inc/js/jquery.ui.js\"></script>
+
 ";
 /*
    echo "
 
 ";
 */
+$msg = "";
 $longest_word = 0;
 
 
@@ -55,56 +57,11 @@ if($file)
 unset($file);
 unset($lines);
 
-$modifications = array();
-/*
-$file = file_get_contents($base . '/P42858_aamods.txt');
-if($file)
-{
-	$lines = preg_split("/\n/", $file);
-	foreach($lines as $line)
-	{
-		$cols = preg_split("/\t/", $line);
-		$modifications = array_push_assoc($modifications, $cols[1], $cols[3]);
-	}
-}
-*/
-$file = file_get_contents("http://www.uniprot.org/uniprot/P42858");
-
-if(preg_match("/Modified residue/", $file))
-{
-	$rows = preg_split("/\<tr/", $file);
-	foreach($rows as $row)
-	{
-		if(preg_match("/Modified residue/", $row))
-		{
-			$cols = preg_split("/\<\/td/", $row);
-			$temp_pos = 0;
-			$temp_type = "";
-			//echo "<textarea rows=\"10\" cols=\"40\">";
-			for($i=0; $i<count($cols); $i++)
-			{
-				if($i > 1)
-				{
-					switch($i)
-					{
-						case 2:
-							$temp_pos = preg_replace("/ Ref.*/", "", preg_replace("/\>/", "", strip_tags($cols[$i])));
-							break;
-						case 4:
-							$temp_type = preg_replace("/ Ref.*/", "", preg_replace("/\>/", "", strip_tags($cols[$i])));
-							break;
-					}
-				}
-			}
-			//echo "</textarea><br>";
-			$modifications = array_push_assoc($modifications, $temp_pos, $temp_type);
-		}
-	}
-
-}
 
 $sequences = array();
 $names = array();
+$animals_uniprot = array();
+$animals_mod = array();
 $input = "data/clustalw2.fasta";
 //echo "<h3>Input: <a href=\"/inc/protein_alignment/$input\">/inc/protein_alignment/$input</a></h3>";
 $file = file_get_contents($base . "/" . $input);
@@ -135,6 +92,7 @@ if($file)
 							$pos_species	= preg_split("/_/", $speciesArr[2]);
 							$speciesId	= $pos_species[0];
 							$speciesName	= $pos_species[1];
+							$animals_uniprot= array_push_assoc($animals_uniprot, $common_name{$prot_id}, $prot_id);
 							$tname = "<a href='http://www.uniprot.org/uniprot/$prot_id' target='_blank'>" . $science_name{$prot_id} . "</a> (" . $common_name{$prot_id} . ")";
 							$name = $science_name{$prot_id} . " (" . $common_name{$prot_id} . ")";
 						}
@@ -162,6 +120,65 @@ if($file)
 	}
 }	
 
+$animals_withMod = array();
+$modifications = array();
+foreach($animals_uniprot as $animal_name=>$uniprot_id)
+{
+	//echo $animal_name . "[" . $uniprot_id . "]<br>\n";
+	$temp_mod = array();
+	$file = file_get_contents("http://www.uniprot.org/uniprot/$uniprot_id");
+	if(preg_match("/Modified residue/", $file))
+	{
+		$animals_withMod = array_push_assoc($animals_withMod, $animal_name, 1);
+		$rows = preg_split("/\<tr/", $file);
+		foreach($rows as $row)
+		{
+			if(preg_match("/Modified residue/", $row))
+			{
+				$cols = preg_split("/\<\/td/", $row);
+				$temp_pos = 0;
+				$temp_type = "";
+				for($i=0; $i<count($cols); $i++)
+				{
+					if($i > 1)
+					{
+						switch($i)
+						{
+							case 2:
+								$temp_pos = preg_replace("/ Ref.*/", "", preg_replace("/\>/", "", strip_tags($cols[$i])));
+								break;
+							case 4:
+								$t_type = preg_replace("/ Ref.*/", "", preg_replace("/\>/", "", strip_tags($cols[$i])));
+								$temp_type = preg_replace("/\ by similarity/i", "", $t_type);
+								break;
+						}
+					}
+				}
+				//$modifications = array_push_assoc($modifications, $temp_pos, $temp_type);
+				$temp_mod = array_push_assoc($temp_mod, $temp_pos, $temp_type);
+			}
+		}
+		$modifications = array_push_assoc($modifications, $animal_name, $temp_mod);
+	}
+	else
+	{
+		$animals_withMod = array_push_assoc($animals_withMod, $animal_name, 0);
+	}
+}
+
+/*
+foreach($animals_withMod as $animal_name=>$has_mod)
+{
+	if($has_mod)
+	{
+		echo $animal_name . "<br>\n";
+		foreach($modifications{strtolower($animal_name)} as $position=>$type)
+		{
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $position . " - " . $type . "<br>\n";
+		}
+	}
+}
+*/
 
 if(count($names) == count($sequences))
 {
@@ -205,17 +222,24 @@ if(count($names) == count($sequences))
 			<ul class=\"seqList-normal\" data-sci-name=\"$sci_name\" data-nor-name=\"$nor_name\">";
 		for($l=0; $l<count($tempSeq); $l++)
 		{
-			if($nor_name == "Human")
+			if($animals_withMod{$nor_name})
 			{
-				if($modifications{($track_pos+1)}) { $mod = "cell-" . strtolower($modifications{($track_pos+1)}); $ptm = " data-ptm=\"" . $modifications{($track_pos+1)} . "\""; }
-				else { $mod = "cell-normal"; $ptm = "data-ptm=\"None\""; }
+				if($modifications{$nor_name}{($track_pos+1)})
+				{
+					$mod = "cell-" . strtolower($modifications{$nor_name}{($track_pos+1)});
+					$ptm = " data-ptm=\"" . $modifications{$nor_name}{($track_pos+1)} . "\"";
+				}
+				else 
+				{ $mod = "cell-normal"; $ptm = "data-ptm=\"None\""; }
 			}
-			else { $mod = "cell-normal"; $ptm = "data-ptm=\"None\""; }
+			else 
+			{ $mod = "cell-normal"; $ptm = "data-ptm=\"None\""; }
 
 			$tLet = $tempSeq[$l];
 			if($tLet == "-") 
 			{
-			echo "<li class=\"seq_letter $mod ind_" . ($l+1) . "\" 
+			echo "<li 
+				class=\"seq_letter $mod ind_" . ($l+1) . "\" 
 				id=\"ind_" . ($l+1) . "\" $ptm 
 				data-position=\"Gap\" 
 				data-amino-acid=\"0\">" . $tempSeq[$l] . "</li>";
@@ -223,7 +247,8 @@ if(count($names) == count($sequences))
 			else 
 			{
 				$track_pos++;
-			echo "<li class=\"seq_letter $mod ind_" . ($l+1) . "\" 
+			echo "<li 
+				class=\"seq_letter $mod ind_" . ($l+1) . "\" 
 				id=\"ind_" . ($l+1) . "\" $ptm 
 				data-position=\"$track_pos\" 
 				data-amino-acid=\"$tLet\">" . $tempSeq[$l] . "</li>";
@@ -239,8 +264,6 @@ if(count($names) == count($sequences))
 </div>";
 }
 
-
-
 /* --------------- Functions --------------- */
 function array_push_assoc($array, $key, $value){
 	$array[$key] = $value;
@@ -250,3 +273,4 @@ function alert($msg){
 	return "<script>alert('$msg');</script>";
 }
 ?>
+</div>

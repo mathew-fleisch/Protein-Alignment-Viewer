@@ -1,3 +1,82 @@
+#optionsWrapper {
+	float:left;
+	padding:10px;
+	margin-bottom: 5px;
+	background-color:#eee;
+	border: 1px solid #888;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	min-height:270px;
+	height:100%;
+	width:182px;
+}
+#optionsTitle {
+	margin-left:5px;
+	font-size:120%;
+	font-weight: bold;
+	border-bottom: 1px solid #888;
+}
+#loading {
+	display:none;
+	width:220px;
+	height:21px;
+	margin:auto;
+	padding: 0;	
+}
+#loadingTitle {
+	margin-bottom:10px;
+	font-size:120%;
+	font-weight: bold;
+}
+.dynamic_options{
+	border: 1px solid #3399cc;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-top-left-radius:10px;
+	border-bottom-left-radius:10px;
+	background-color:#fff;
+	text-align:right;
+	width:180px;
+	margin-top:10px;
+	padding: 5px 0;
+}
+.animal_options{
+	border: 1px solid #3399cc;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-top-left-radius:10px;
+	border-bottom-left-radius:10px;
+	background-color:#fff;
+	text-align:right;
+	height:150px;
+	width:180px;
+	overflow:auto;
+}
+.buttonWrapper {
+	margin: 10px 0;
+	width:180px;
+	text-align:center;
+}
+.myButtons {
+	border:1px solid #888;
+	margin: 0;
+	background-color:#fff;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+}
+.protav_animals {
+	padding:0;
+	margin: 0 3px;
+}
+.protav_animal {
+	list-style-type:none;
+	font-size: 10px;
+}
 #cell {
 	float:left;
 	border-right: 1px solid #3399cc;
@@ -38,7 +117,8 @@
       font-weight:normal;
 }
 #legend {
-	width:814px;
+	float:right;
+	width:785px;
 	height:27px;
 	border-right: 1px solid #3399cc;
 	border-left: 1px solid #3399cc;
@@ -50,19 +130,21 @@
 	border-top-left-radius:10px;
 	border-top-right-radius:10px;
 	padding:0;
-	margin:0;
+	margin: 0 1px 0 0;
 }
 #protavWrapper {
 	font-family: Courier, Courier New;
 	font-size: 16px;
 	color:#666;
-	width:814px;
+	float:right;
+	width:785px;
 	min-height:27px;
-	max-height:240px;
+	max-height:250px;
 	overflow:auto;
 	border: 1px solid #3399cc;
 	white-space:nowrap;
 	padding:10px 0;
+	margin-right:1px;
 }
 #animalSeq {
 	padding:0;
@@ -99,7 +181,7 @@
 	display:inline;
 }
 .cell-hover {
-	color:#444;
+	color:#666;
 	background-color:#ddd;
 }
 .cell-normal {

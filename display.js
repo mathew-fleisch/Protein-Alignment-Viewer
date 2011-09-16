@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$(".seq_letter").live("mouseover mouseout click", function(event) {
-		var crnt_position	= $(this).attr('data-position');
+		var crnt_position	= $(this).attr('id').replace("ind_","");
 		var normal_name		= $(this).parent().attr("data-nor-name");
 		var science_name	= $(this).attr("data-position");
 		var amino_acid		= lookup($(this).text());
@@ -13,9 +13,9 @@ $(document).ready(function() {
 			$(this).parent().addClass("seqList-hover");
 			
 			//Column Hover
-			//$(".pos_"+crnt_position).css("background-color", "#ddd");
-			$(".pos_"+crnt_position).removeClass("cell-normal");
-			$(".pos_"+crnt_position).addClass("cell-hover");
+			//$(".ind_"+crnt_position).css("background-color", "#ddd");
+			$(".ind_"+crnt_position).removeClass("cell-normal");
+			$(".ind_"+crnt_position).addClass("cell-hover");
 
 
 			//Legend text
@@ -31,15 +31,86 @@ $(document).ready(function() {
 			$(this).parent().addClass("seqList-normal");
 
 			//Column De-Hover
-			$(".pos_"+crnt_position).removeClass("cell-hover");
-			if(!$(".pos_"+crnt_position).attr("data-ptm")) { $(".pos_"+crnt_position).addClass("cell-normal"); }
+			$(".ind_"+crnt_position).removeClass("cell-hover");
+			if(!$(".ind_"+crnt_position).attr("data-ptm")) { $(".ind_"+crnt_position).addClass("cell-normal"); }
 		}
+	});
+	$('#activate_protav_ajax').click(function(){
+		var search_str = "";
+		var possible_animals_long = new Array(
+			"chimpanzee", 
+			"florida lancelet", 
+			"fruit fly", 
+			"giant panda", 
+			"horse", 
+			"human", 
+			"japanese pufferfish", 
+			"mouse", 
+			"pig", 
+			"rat", 
+			"sheep", 
+			"sumatran orangutan", 
+			"white-tufted-ear marmoset");
+		$(":checkbox").each(function(index) {
+			if(this.checked)
+			{
+				search_str += possible_animals_long[index]+",";
+			}
+		});
+		protav(search_str.substring(0,search_str.length-1));
+	});
+	$('#check_all').click(function(){
+		var chkd = true;
+		$(":checkbox").each(function() { 
+			if(this.checked == false)
+			{
+				chkd = false;
+			}
+		});
+		$(":checkbox").each(function() {
+			if(chkd)
+			{
+				this.checked = false;
+			}
+			else
+			{
+				this.checked = true;
+			}
+		});
 	});
 });
 
+
+/* ----------------------- FUNCTIONS -----------------------*/
 String.prototype.capitalize = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 }
+
+
+//Function:	protav()
+function protav(useTheseAnimals)
+{
+	var animals = useTheseAnimals.split(",");
+	var count = (animals.length*25)+2;
+	$("#protav").hide();
+	$("#loading").show();
+	$.ajax({
+		type: "POST",
+		url: "/inc/protein_alignment/protav.php",
+		data: "incAnimals="+useTheseAnimals,
+		dataType: "html",
+		success: function(html) {
+			$('#protav').html(html);
+			$('#protavWrapper').css("height", count+"px");
+			var legendTop = (count+165);
+			$("#legendHolder").css("margin-top", legendTop);
+			$("#loading").hide();
+			$("#protav").show();
+		}
+	});
+	return false;
+}
+//End Function: protav()
 function lookup(letter)
 {
 	switch(letter)
