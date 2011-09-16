@@ -1,0 +1,7 @@
+411	1	Phosphoserine
+419	1	Phosphoserine
+432	1	Phosphoserine
+1179	1	Phosphoserine
+1199	1	Phosphoserine
+1870	1	Phosphoserine
+1874	1	Phosphoserine

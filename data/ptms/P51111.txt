@@ -1,0 +1,5 @@
+389	1	Phosphoserine by similarity
+402	1	Phosphoserine by similarity
+1150	1	Phosphoserine by similarity
+1170	1	Phosphoserine by similarity
+1845	1	Phosphoserine by similarity
