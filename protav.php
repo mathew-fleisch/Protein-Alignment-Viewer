@@ -56,6 +56,7 @@ unset($file);
 unset($lines);
 
 $modifications = array();
+/*
 $file = file_get_contents($base . '/P42858_aamods.txt');
 if($file)
 {
@@ -65,6 +66,41 @@ if($file)
 		$cols = preg_split("/\t/", $line);
 		$modifications = array_push_assoc($modifications, $cols[1], $cols[3]);
 	}
+}
+*/
+$file = file_get_contents("http://www.uniprot.org/uniprot/P42858");
+
+if(preg_match("/Modified residue/", $file))
+{
+	$rows = preg_split("/\<tr/", $file);
+	foreach($rows as $row)
+	{
+		if(preg_match("/Modified residue/", $row))
+		{
+			$cols = preg_split("/\<\/td/", $row);
+			$temp_pos = 0;
+			$temp_type = "";
+			//echo "<textarea rows=\"10\" cols=\"40\">";
+			for($i=0; $i<count($cols); $i++)
+			{
+				if($i > 1)
+				{
+					switch($i)
+					{
+						case 2:
+							$temp_pos = preg_replace("/ Ref.*/", "", preg_replace("/\>/", "", strip_tags($cols[$i])));
+							break;
+						case 4:
+							$temp_type = preg_replace("/ Ref.*/", "", preg_replace("/\>/", "", strip_tags($cols[$i])));
+							break;
+					}
+				}
+			}
+			//echo "</textarea><br>";
+			$modifications = array_push_assoc($modifications, $temp_pos, $temp_type);
+		}
+	}
+
 }
 
 $sequences = array();
@@ -99,20 +135,20 @@ if($file)
 							$pos_species	= preg_split("/_/", $speciesArr[2]);
 							$speciesId	= $pos_species[0];
 							$speciesName	= $pos_species[1];
-							//$tname = "<a href='http://www.uniprot.org/uniprot/$prot_id'>" . $science_name{$prot_id} . "</a> (" . $common_name{$prot_id} . ")";
+							$tname = "<a href='http://www.uniprot.org/uniprot/$prot_id' target='_blank'>" . $science_name{$prot_id} . "</a> (" . $common_name{$prot_id} . ")";
 							$name = $science_name{$prot_id} . " (" . $common_name{$prot_id} . ")";
 						}
 						else
 						{
 							$name = $science_name{$line} . " (" . $common_name{$line} . ")";
-							//$tname = "";
+							$tname = "<a href='http://www.uniprot.org/uniparc/$line' target='_blank'>" . $science_name{$line} . "</a> (" . $common_name{$line} . ")";
 						}
 						//Since spacing matters, make a var with the correct 
 						//number of blank spaces to maintain sequence alignment				
 						$nameLen = strlen($name);
 						$opSpace = "";
 						for($i = 0; $i < ($longest_word - $nameLen); $i++) { $opSpace.="&nbsp;"; }
-						//if($tname) { $name = $tname; }
+						if($tname) { $name = $tname; }
 						//$tmp = "<a href=\"http://www.uniprot.org\">$name</a>$opSpace";
 						//echo alert($tmp);
 						array_push($names, $name.$opSpace);
@@ -152,6 +188,7 @@ if(count($names) == count($sequences))
 		$sci_name = trim($sp_arr[0]);
 		$nor_name = preg_replace("/\)*\&nbsp\;*/", "", $sp_arr[1]);
 		$tempSeq = str_split($sequences[$i]);
+		$track_pos = 0;
 
 		if(count($incAnimals))
 		{
@@ -170,14 +207,28 @@ if(count($names) == count($sequences))
 		{
 			if($nor_name == "Human")
 			{
-				if($modifications{($l+1)}) { $mod = "cell-" . strtolower($modifications{($l+1)}); $ptm = " data-ptm=\"" . $modifications{($l+1)} . "\""; }
+				if($modifications{($track_pos+1)}) { $mod = "cell-" . strtolower($modifications{($track_pos+1)}); $ptm = " data-ptm=\"" . $modifications{($track_pos+1)} . "\""; }
 				else { $mod = "cell-normal"; $ptm = "data-ptm=\"None\""; }
 			}
 			else { $mod = "cell-normal"; $ptm = "data-ptm=\"None\""; }
 
 			$tLet = $tempSeq[$l];
-			if($tLet == "-") { $tLet = "0"; }
-			echo "<li class=\"seq_letter $mod pos_" . ($l+1) . "\" id=\"pos_" . ($l+1) . "\" $ptm data-position=\"" . ($l+1) . "\" data-amino-acid=\"$tLet\">" . $tempSeq[$l] . "</li>";
+			if($tLet == "-") 
+			{
+			echo "<li class=\"seq_letter $mod ind_" . ($l+1) . "\" 
+				id=\"ind_" . ($l+1) . "\" $ptm 
+				data-position=\"Gap\" 
+				data-amino-acid=\"0\">" . $tempSeq[$l] . "</li>";
+			}
+			else 
+			{
+				$track_pos++;
+			echo "<li class=\"seq_letter $mod ind_" . ($l+1) . "\" 
+				id=\"ind_" . ($l+1) . "\" $ptm 
+				data-position=\"$track_pos\" 
+				data-amino-acid=\"$tLet\">" . $tempSeq[$l] . "</li>";
+			}
+
 		}
 		echo "
 			</ul>
