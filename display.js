@@ -9,13 +9,18 @@ $(document).ready(function() {
 		if(event.type == "mouseover")
 		{
 			//Row Hover
-			$(this).parent().removeClass("seqList-normal");
-			$(this).parent().addClass("seqList-hover");
-			
+			if($("#hl_row").attr('checked'))
+			{
+				$(this).parent().removeClass("seqList-normal");
+				$(this).parent().addClass("seqList-hover");
+			}
+
 			//Column Hover
-			//$(".ind_"+crnt_position).css("background-color", "#ddd");
-			$(".ind_"+crnt_position).removeClass("cell-normal");
-			$(".ind_"+crnt_position).addClass("cell-hover");
+			if($("#hl_col").attr('checked'))
+			{
+				$(".ind_"+crnt_position).removeClass("cell-normal");
+				$(".ind_"+crnt_position).addClass("cell-hover");
+			}
 
 
 			//Legend text
@@ -51,7 +56,7 @@ $(document).ready(function() {
 			"sheep", 
 			"sumatran orangutan", 
 			"white-tufted-ear marmoset");
-		$(":checkbox").each(function(index) {
+		$(".animalBoxes").each(function(index) {
 			if(this.checked)
 			{
 				search_str += possible_animals_long[index]+",";
@@ -61,13 +66,13 @@ $(document).ready(function() {
 	});
 	$('#check_all').click(function(){
 		var chkd = true;
-		$(":checkbox").each(function() { 
+		$(".animalBoxes").each(function() { 
 			if(this.checked == false)
 			{
 				chkd = false;
 			}
 		});
-		$(":checkbox").each(function() {
+		$(".animalBoxes").each(function() {
 			if(chkd)
 			{
 				this.checked = false;
@@ -78,6 +83,7 @@ $(document).ready(function() {
 			}
 		});
 	});
+	$('#protavWrapper').css("height", ($("#optionsWrapper").height()-29)+"px");
 });
 
 
@@ -91,7 +97,9 @@ String.prototype.capitalize = function() {
 function protav(useTheseAnimals)
 {
 	var animals = useTheseAnimals.split(",");
-	var count = (animals.length*25)+2;
+	//var count = (animals.length*25)+2;
+	var count = $("#optionsWrapper").height()-29;
+
 	$("#protav").hide();
 	$("#loading").show();
 	$.ajax({

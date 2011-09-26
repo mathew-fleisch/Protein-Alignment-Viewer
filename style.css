@@ -40,7 +40,7 @@
 	background-color:#fff;
 	text-align:right;
 	width:180px;
-	margin-top:10px;
+	margin-bottom:10px;
 	padding: 5px 0;
 }
 .animal_options{
@@ -111,10 +111,9 @@
 }
 #ptm {
 	padding: 0 5px;
-	width:90px;
 	float:right;
 	color:#3399cc;
-      font-weight:normal;
+	font-weight:normal;
 }
 #legend {
 	float:right;
@@ -138,8 +137,7 @@
 	color:#666;
 	float:right;
 	width:785px;
-	min-height:27px;
-	max-height:250px;
+	min-height:263px;
 	overflow:auto;
 	border: 1px solid #3399cc;
 	white-space:nowrap;
