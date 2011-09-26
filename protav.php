@@ -7,7 +7,10 @@
 if($_POST)
 {
 	$incAnimals = preg_split("/,/", $_POST['incAnimals']);
-}else { $incAnimals = array(); }
+}else{ 
+	$incAnimals = array();
+	//$incAnimals = array("human");
+}
 echo "
 
 ";
@@ -107,8 +110,6 @@ if($file)
 						$opSpace = "";
 						for($i = 0; $i < ($longest_word - $nameLen); $i++) { $opSpace.="&nbsp;"; }
 						if($tname) { $name = $tname; }
-						//$tmp = "<a href=\"http://www.uniprot.org\">$name</a>$opSpace";
-						//echo alert($tmp);
 						array_push($names, $name.$opSpace);
 						$speciesTrig = true;
 					}
@@ -125,60 +126,96 @@ $modifications = array();
 foreach($animals_uniprot as $animal_name=>$uniprot_id)
 {
 	//echo $animal_name . "[" . $uniprot_id . "]<br>\n";
-	$temp_mod = array();
-	$file = file_get_contents("http://www.uniprot.org/uniprot/$uniprot_id");
-	if(preg_match("/Modified residue/", $file))
+	if(file_exists($base."/data/ptms/$uniprot_id.txt"))
 	{
-		$animals_withMod = array_push_assoc($animals_withMod, $animal_name, 1);
-		$rows = preg_split("/\<tr/", $file);
-		foreach($rows as $row)
+		$file = file_get_contents($base."/data/ptms/$uniprot_id.txt");
+		if(preg_match("/PTMs/", $file))
 		{
-			if(preg_match("/Modified residue/", $row))
-			{
-				$cols = preg_split("/\<\/td/", $row);
-				$temp_pos = 0;
-				$temp_type = "";
-				for($i=0; $i<count($cols); $i++)
-				{
-					if($i > 1)
-					{
-						switch($i)
-						{
-							case 2:
-								$temp_pos = preg_replace("/ Ref.*/", "", preg_replace("/\>/", "", strip_tags($cols[$i])));
-								break;
-							case 4:
-								$t_type = preg_replace("/ Ref.*/", "", preg_replace("/\>/", "", strip_tags($cols[$i])));
-								$temp_type = preg_replace("/\ by similarity/i", "", $t_type);
-								break;
-						}
-					}
-				}
-				//$modifications = array_push_assoc($modifications, $temp_pos, $temp_type);
-				$temp_mod = array_push_assoc($temp_mod, $temp_pos, $temp_type);
-			}
+			//echo $uniprot_id . " has no PTMs...<br>\n";
+			$animals_withMod = array_push_assoc($animals_withMod, $animal_name, 0);
 		}
-		$modifications = array_push_assoc($modifications, $animal_name, $temp_mod);
+		else
+		{
+			$animals_withMod = array_push_assoc($animals_withMod, $animal_name, 1);
+			$temp_mod = array();
+			$lines = preg_split("/\n/", $file);
+			foreach($lines as $line)
+			{
+				$cols = preg_split("/\t/", $line);
+				$tPos = $cols[0];
+				$tLen = $cols[1];
+				$tTyp = $cols[2];
+				$temp_mod = array_push_assoc($temp_mod, $tPos, $tTyp);
+			}
+			$modifications = array_push_assoc($modifications, $animal_name, $temp_mod);
+		}
 	}
 	else
 	{
-		$animals_withMod = array_push_assoc($animals_withMod, $animal_name, 0);
-	}
-}
-
-/*
-foreach($animals_withMod as $animal_name=>$has_mod)
-{
-	if($has_mod)
-	{
-		echo $animal_name . "<br>\n";
-		foreach($modifications{strtolower($animal_name)} as $position=>$type)
+		$temp_mod = array();
+		$tmp_mod = "";
+		$uniprot_page = file_get_contents("http://www.uniprot.org/uniprot/$uniprot_id");
+		if(preg_match("/Modified residue/", $uniprot_page))
 		{
-			echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $position . " - " . $type . "<br>\n";
+			$animals_withMod = array_push_assoc($animals_withMod, $animal_name, 1);
+			$rows = preg_split("/\<tr/", $uniprot_page);
+			foreach($rows as $row)
+			{
+				if(preg_match("/Modified residue/", $row))
+				{
+					$cols = preg_split("/\<\/td/", $row);
+					$temp_pos = 0;
+					$temp_type = "";
+					for($i=0; $i<count($cols); $i++)
+					{
+						if($i > 1)
+						{
+							switch($i)
+							{
+								case 2:
+									$temp_pos = preg_replace("/ Ref.*/", "", preg_replace("/\>/", "", strip_tags($cols[$i])));
+									break;
+								case 3:
+									$temp_len = preg_replace("/\>/", "", strip_tags($cols[$i]));
+									break;
+								case 4:
+									$temp_type = ucfirst(strtolower(preg_replace("/ Ref.*/", "", preg_replace("/\>/", "", strip_tags($cols[$i])))));
+									//$temp_type = preg_replace("/\ by similarity/i", "", $t_type);
+									break;
+							}
+						}
+					}
+					$temp_mod = array_push_assoc($temp_mod, $temp_pos, $temp_type);
+					$tmp_mod .= $temp_pos . "\t" . $temp_len . "\t" . $temp_type . "\n";
+				}
+			}
+			$modifications = array_push_assoc($modifications, $animal_name, $temp_mod);
+			if($handle = fopen($base."/data/ptms/$uniprot_id.txt", 'w'))
+			{
+				if(fwrite($handle, $tmp_mod) == false)
+				{
+					//echo "cannot write to file: $uniprot_id.txt<br>\n";
+					echo alert('There was a problem updating a uniprot file...'); 
+					exit;
+				}
+			}
+		}
+		else
+		{
+			$animals_withMod = array_push_assoc($animals_withMod, $animal_name, 0);
+			if($handle = fopen($base."/data/ptms/$uniprot_id.txt", 'w'))
+			{
+				if(fwrite($handle, "No PTMs for this uniprot id...") == false)
+				{
+					//echo "cannot write to file: $uniprot_id.txt<br>\n";
+					echo alert('There was a problem updating a uniprot file...'); 
+					exit;
+				}
+			}
 		}
 	}
 }
-*/
+
 
 if(count($names) == count($sequences))
 {
